@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <title>Library managment system</title>
+</head>
+
+<body>
+
+   
+    <div class="container bg-white">
+        <nav class="navbar navbar-expand-md navbar-light bg-white">
+            <div class="container-fluid p-0"> <a class="navbar-brand text-uppercase fw-800" href="#"><span
+                        class="border-red pe-2">Book</span>Store</a> <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#myNav" aria-controls="myNav" aria-expanded="false"
+                    aria-label="Toggle navigation"> <span class="fas fa-bars"></span> </button>
+                <div class="collapse navbar-collapse" id="myNav">
+                    <div class="navbar-nav ms-auto"> <a class="nav-link " aria-current="page" href="/">All</a>
+                        <!-- <a class="nav-link" href="/signin">Login</a>
+                        <a class="nav-link" href="/signup">Register</a> -->
+                        <% if (login===true) { %>
+                            <a class="nav-link active" href="/collected_books">Collected Books </a>
+                            <a class="nav-link" href="/logout">LogOut</a>
+                            <% }else{ %>
+                                <a class="nav-link" href="/signin">Login</a>
+                                <a class="nav-link" href="/signup">Register</a>
+                                <% } %>
+                                    <!--  -->
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!--  -->
+        
+
+        <div class="row ms-4 me-4">
+            <% if (userBookingData.length>0) { %>
+                <table class="table table-striped table-dark">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Book Name</th>
+                            <th scope="col">Author</th>
+                            <th scope="col">Booked By</th>
+                            <th scope="col">Booking Date</th>
+                            <th scope="col">Submit Date</th>
+                        </tr>
+                    </thead>
+                    <% let k=1 %>
+                        <% for(let BookingData of userBookingData){%>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">
+                                        <%= k++ %>
+                                    </th>
+                                    <td>
+                                        <%= BookingData.book_data.name %>
+                                    </td>
+                                    <td>
+                                        <%= BookingData.book_data.author %>
+                                    </td>
+                                    <td>
+                                        <%= BookingData.user_data.name %> <br>
+                                        <%= BookingData.user_data.email %>
+                                    </td>
+                                    <td>
+                                        <%= moment(BookingData.bookDate).format("LLLL") %>
+                                    </td>
+                                    <td>
+                                        <% if(BookingData.book_submit_Date) { %>
+                                           <%=  moment(BookingData.book_submit_Date).format("LLLL") %>
+                                        <% } else { %>
+                                            <form action="/submit-book" method="post" enctype="application/x-www-form-urlencoded">
+                                                <input type="hidden" name="id" value="<%= BookingData._id %>">
+                                                <button type="submit">Submit Book</button>
+                                            </form>
+                                        <% }  %>
+                                    </td>
+                                
+                                </tr>
+
+                            </tbody>
+                            <% } %>
+
+                </table>
+                <% }else{%>
+                    <p>Don't have any book</p>
+                    <% } %>
+
+        </div>
+
+    </div>
+
+     
+
+
+
+
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            $('.toast').toast('show');
+
+            $('.toast').on('click', (e) => {
+                $('.toast').toast('hide');
+            })
+        })
+    </script>
+</body>
+
+</html>
